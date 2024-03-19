@@ -1,0 +1,202 @@
+{%extends 'adminNav.html'%}
+{%block title%}Admin Page {%endblock%}
+{%block content%}
+
+<div class="jumbotron p-3 position=fixed-navbar">
+    <div class="well text-center">
+        <h1>Welcome {{current_user.firstName}}</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2>Manage <b>Sponsorships </b>
+                  <!-- 
+                  <select>
+                    <option value="Sponsor"><a href="/adminPage">Sponsor</a></option>
+                    <option value="Bursary"><a href="/bursaryPage">Bursary</a></option>
+                    <option value="Grants"><a href="/grantsPage">Grants</a></option>
+                  </select>
+                  -->
+                  <button type="button" class="btn btn-info float-right"
+                data-toggle="modal" data-target="#mymodal">Add New sponsor</button> </h2>
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Company Name</th>
+                        <th>Opening Date</th>
+                        <th>Closing Date</th>
+                        <th>Department</th>
+                        <th>Company Email</th>
+                        <th>Additional Requirements</th>
+                    </tr>
+                    {% for row in sponsors %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.AcompanyName}}</td>
+                        <td>{{row.BOpeningDate}}</td>
+                        <td>{{row.CclosingDate}}</td>
+                        <td>{{row.Ddepartment}}</td>
+                        <td>{{row.companyEmail}}</td>
+                        <td>{{row.add_req}}</td>
+                        <td>
+                            <a href="/update/{{row.id}}" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                            <a href="/delete/{{row.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                        </td>
+                    </tr>
+                    <!--UPDATE -->
+                    <div class="modal fade" id="modaledit{{row.id}}" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Update Sponsor</h4>
+          
+          
+                          </div>
+          
+                          <div class="modal-body">
+          
+          
+                            <form action="{{url_for('auth.update')}}" method="POST">
+          
+          
+                              <div class="form-group">
+          
+          
+                                <label>Company Name:</label>
+                                <input name="id" type="hidden" value="{{row.id}}">
+          
+                                <input class="form-control" name="companyName" type="text" value="{{row.AcompanyName}}">
+          
+          
+                              </div>
+          
+          
+                              <div class="form-group">
+          
+                                <label>Opening Date:</label>
+          
+                                <input class="form-control" name="OpeningDate" type="date" value="{{row.BOpeningDate}}">
+          
+          
+                              </div>
+          
+          
+                              <div class="form-group">
+          
+                                <label>Closing Date:</label>
+                                <input class="form-control" name="closingDate" type="date" value="{{row.CclosingDate}}">
+                              </div>
+                              <div class="form-group">
+
+                                 <div class="form-group">
+                                    <label>Select Your Department:</label>
+                                  <select name="department" id="department">
+                                    <option value=""></option>
+                                    <option value="Accounting_informatics">Accounting and informatics</option>
+                                    <option value="Engineering">Engineering and the built environment</option>
+                                    <option value="Medical_science">Health Sciences</option>
+                                    <option value="Management">Management sciences</option>
+                                    <option value="Applied_sciences">Applied sciences</option>
+                                    <option value="Hospitality">Hospitality</option>
+                                  </select>
+                                 </div>
+          
+
+                                  <!--
+                                  <input class="form-control" name="department" type="text" value="{{row.Ddepartment}}">
+                              -->
+                              </div>
+                              <div class="form-group">
+          
+                                <label>Company email:</label>
+                                <input class="form-control" name="companyEmail" type="email" value="{{row.companyEmail}}">
+                              </div>
+
+                                <div class="form-group">
+
+                                <label>Additional Requirements</label>
+                                <input class="form-control" name="ApplicationLink" type="text" value="{{row.add_req}}">
+                              </div>
+          
+                              <div class="form-group">
+          
+                                <button class="btn btn-primary" type="submit">Update</button>
+                              </div>
+          
+                            </form>
+          
+                          </div>
+          
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      {% endfor%}
+                </table>   
+                <!-- Modal Add Employee-->
+      <div class="modal fade" id="mymodal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+ 
+              <h4 class="modal-title">ADD SPONSOR</h4>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('auth.insert')}}" method="POST">
+                <div class="form-group">
+                  <label>Company Name:</label>
+                  <input class="form-control" name="companyName" required="1" type="text">
+                </div>
+                <div class="form-group">
+                  <label>Opening Date:</label>
+                  <input class="form-control" name="OpeningDate" required="1" type="date">
+ 
+                </div>
+                <div class="form-group">
+                  <label>Closing Date:</label>
+                  <input class="form-control" name="closingDate" required="1" type="date">
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                      <label>Select Your Department:</label>
+                        <select class="form-control" name="department" required="1" type="text">
+                            <option value=""></option>
+                            <option value="Accounting_informatics">Accounting and informatics</option>
+                            <option value="Engineering">Engineering and the built environment</option>
+                            <option value="Medical_science">Health Sciences</option>
+                            <option value="Management">Management sciences</option>
+                            <option value="Applied_sciences">Applied sciences</option>
+                            <option value="Hospitality">Hospitality</option>
+                        </select>
+
+                <div class="form-group">
+                    <label>Company email:</label>
+                    <input class="form-control" name="companyEmail" required="1" type="email">
+                </div>
+                  <div class="form-group">
+                      <label>Additional Requirements</label>
+                      <input class="form-control" name="add_req" required="1" type="text">
+                  </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Add Sponsor</button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}
+

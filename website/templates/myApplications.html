@@ -1,0 +1,38 @@
+{%extends 'studentNav.html'%}
+{%block title%}My applications {%endblock%}
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3 position=fixed-navbar">
+                <h2>My <b>Applications </h2>
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                       <th>ID</th>
+                        <th>Company Name</th>
+                        <th>Company Email</th>
+                        <th>Date Applied</th>
+                        <th>Sponsorship Id</th>
+                        <th>bursary ID</th>
+                        <th>Grant ID</th>
+                        <th>Documents Submitted</th>
+                    </tr>
+                    {% for row in application %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.companyName}}</td>
+                        <td>{{row.companyEmail}}</td>
+                        <td>{{row.applicationDate}}</td>
+                        <td>{{row.sponsorship_id}}</td>
+                        <td>{{row.bursary_id}}</td>
+                        <td>{{row.grant_id}}</td>
+                        <td>{{row.supp_doc_name}}</td>
+                    </tr>
+                    {%endfor%}
+                </table>    
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

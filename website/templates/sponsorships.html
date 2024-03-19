@@ -1,0 +1,109 @@
+{%extends 'studentNav.html'%}
+{%block title%}Student Page {%endblock%}
+{%block content%}
+
+<div class="jumbotron p-3 position=fixed-navbar">
+    <div class="well text-center">
+        <h1>Welcome {{current_user.firstName}}</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+              <h2>View Available <b>Bursaries</b></h2>
+                <table class="table table-hover table-dark">
+                    <tr>
+                       <th>ID</th>
+                        <th>Company Name</th>
+                        <th>Opening Date</th>
+                        <th>Closing Date</th>
+                        <th>Department</th>
+                        <th>Company Email</th>
+                        <th>Additional Requirements</th>
+                    </tr>
+                    {% for row in sponsors %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.AcompanyName}}</td>
+                        <td>{{row.BOpeningDate}}</td>
+                        <td>{{row.CclosingDate}}</td>
+                        <td>{{row.Ddepartment}}</td>
+                        <td>{{row.companyEmail}}</td>
+                        <td>{{row.add_req}}</td>
+                        <td>
+                            <a href="https://drive.google.com/uc?export=download&id=1zeW5Jqz2xMVbXH4p_enhEnPPzoGsB2Lg" class="btn btn-success btn-xs"  >Download</a>
+                            <a href="/applySponsorship/{{row.id}}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalapply{{row.id}}">Apply</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="modalapply{{row.id}}" role="dialog">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Apply For Sponsarship</h4>
+    
+                            </div>
+            
+                            <div class="modal-body">
+                              <form action="{{url_for('auth.applySponsorship')}}" method="POST" enctype="multipart/form-data">
+            
+            
+                                <div class="form-group">
+            
+            
+                                  <label>Company Name:</label>
+                                  <input name="id" type="hidden" value="{{row.id}}">
+            
+                                  <input class="form-control" name="companyName" type="text" value="{{row.AcompanyName}}"readonly>
+            
+            
+                                </div>
+            
+                                <!--
+                                <div class="form-group">
+            
+                                  <label>Application Date:</label>
+            
+                                  <input class="form-control" name="OpeningDate" type="date" value="{{row.BBOpeningDate}}">
+                                </div>
+                                -->
+
+                                <div class="form-group">
+            
+                                  <label>Company Email:</label>
+                                  <input class="form-control" name="companyEmail" type="email" value="{{row.companyEmail}}"readonly>
+                                </div>
+  
+                                  <div class="form-group">
+  
+                                  <label>Supporting Documents:</label>
+                                  <input class="form-control" name="supp_doc" type="file" value="{{row.supp_doc}}">
+                                </div>
+            
+                                <div class="form-group">
+            
+                                  <button class="btn btn-primary" type="submit">Apply</button>
+                                </div>
+            
+                              </form>
+            
+                            </div>
+            
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        {% endfor%}
+                  </table>   
+                </table>
+             </div>   
+          </div>  
+     </div>      
+</div> 
+
+{%endblock%}
+
+

@@ -1,0 +1,126 @@
+{%extends 'studentNav.html'%}
+{%block title%}Student Page {%endblock%}
+{%block content%}
+<div class="jumbotron p-3 position=fixed-navbar">
+    <div class="well text-center">
+        <h1>Welcome {{current_user.firstName}}</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2>Manage <b> My Profile </b><a href="/myApplications"><button type="submit" class="btn btn-info float-right">My Applications</button></a> </h2>
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                       <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email Address</th>
+                        <th>Department</th>
+                    </tr>
+                    {% for row in sponsors %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.Email}}</td>
+                        <td>{{row.department}}</td>
+                        <td>
+                            <a href="/updatemyDetails/{{row.id}}" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit My details</a>
+                        </td>
+                    </tr>
+                    <!--UPDATE -->
+                    <div class="modal fade" id="modaledit{{row.id}}" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Edit My Details</h4>
+
+
+                          </div>
+
+                          <div class="modal-body">
+
+
+                            <form action="{{url_for('auth.updatemyDetails')}}" method="POST">
+
+
+                              <div class="form-group">
+
+
+                                <label>First Name:</label>
+                                <input name="id" type="hidden" value="{{row.id}}">
+
+                                <input class="form-control" name="firstName" type="text" value="{{row.firstName}}">
+
+
+                              </div>
+
+
+                              <div class="form-group">
+
+                                <label>Last Name:</label>
+
+                                <input class="form-control" name="lastName" type="text" value="{{row.lastName}}">
+
+
+                              </div>
+
+
+                              <div class="form-group">
+
+                                <label>Email:</label>
+                                <input class="form-control" name="email" type="email" value="{{row.Email}}">
+                              </div>
+                              <div class="form-group">
+
+                                <div class="form-group">
+                                    <label>Select Your Department:</label>
+                                  <select name="department" id="department">
+                                    <option value=""></option>
+                                    <option value="Accounting_informatics">Accounting and informatics</option>
+                                    <option value="Engineering">Engineering and the built environment</option>
+                                    <option value="Medical_science">Health Sciences</option>
+                                    <option value="Management">Management sciences</option>
+                                    <option value="Applied_sciences">Applied sciences</option>
+                                    <option value="Hospitality">Hospitality</option>
+                                  </select>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+
+                                <label>Password:</label>
+                                <input class="form-control" name="password" type="text" value="new password">
+                              </div>
+
+                              <div class="form-group">
+
+                                <button class="btn btn-primary" type="submit">Update</button>
+                              </div>
+
+                            </form>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      {% endfor%}
+                </table>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>    
+
+{%endblock%}
+
